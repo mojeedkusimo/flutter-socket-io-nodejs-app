@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 void main() {
   runApp(const MyApp());
@@ -32,6 +33,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  IO.Socket socket=IO.io("http://localhost:3535/api");
 
   void _incrementCounter() {
     setState(() {
@@ -45,7 +47,6 @@ class _MyHomePageState extends State<MyHomePage> {
       var getRequest = await http.get(Uri.parse('http://localhost:3535/api'));
 
       var responseBody = await json.decode(getRequest.body);
-      print(responseBody);
 
       if (getRequest.statusCode == 200) {
         responseMessage = responseBody["message"];
