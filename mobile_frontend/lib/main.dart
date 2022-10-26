@@ -33,7 +33,14 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  IO.Socket socket=IO.io("http://localhost:3535/api");
+
+  connect() {
+    var socket = IO.io("http://localhost:3535/api", {
+      "transport": ['websocket'],
+      "autoConnect": true
+    });
+    socket.connect();
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -91,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: requestFunction,
+        onPressed: connect,
         tooltip: 'Make request',
         child: const Icon(Icons.request_page),
       ),
