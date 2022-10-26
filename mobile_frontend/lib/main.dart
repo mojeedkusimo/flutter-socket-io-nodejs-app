@@ -127,11 +127,13 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisExtent: 100.0),
         children: [
           FloatingActionButton(
+            heroTag: null,
             onPressed: httpFunction,
             tooltip: 'Make HTTP request',
             child: const Icon(Icons.http),
           ),
           FloatingActionButton(
+            heroTag: null,
             onPressed: webSocketFucntion,
             tooltip: 'Make WebSocket request',
             child: const Icon(Icons.connected_tv),

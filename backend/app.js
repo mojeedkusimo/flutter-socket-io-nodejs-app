@@ -17,7 +17,7 @@ io.on('connection', (socket) => {
     console.log(`${socket.id} has been added to the socket connection`);
 });
 server.listen(PORT, () => {
-    console.log('Server running on PORT:', PORT)
+    console.log('Server running on PORT:', PORT);
 });
 
 app.use('/api', (req, res) => {
