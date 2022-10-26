@@ -14,15 +14,15 @@ const PORT = process.env.PORT || 3535
 app.use(cors());
 
 io.on('connection', (socket) => {
-    console.log('connected to socket...')
-})
-app.listen(PORT, () => {
+    console.log(`${socket.id} has been added to the socket connection`);
+});
+server.listen(PORT, () => {
     console.log('Server running on PORT:', PORT)
 });
 
 app.use('/api', (req, res) => {
     res.json({
         status: 200,
-        message: `You have successfully made a request to the server on port: ${PORT}`
+        message: `You have successfully made an HTTP request to the server on port: ${PORT}`
     });
 });

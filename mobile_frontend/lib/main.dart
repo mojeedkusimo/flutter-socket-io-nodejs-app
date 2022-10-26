@@ -32,24 +32,43 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var responseMessage;
   int _counter = 0;
 
-  connect() {
-    var socket = IO.io("http://localhost:3535/api", {
-      "transport": ['websocket'],
+  webSocketFucntion() {
+    var socket = IO.io("http://localhost:3535", {
+      "transports": ['websocket'],
       "autoConnect": true
     });
     socket.connect();
+    socket.onConnect((data) => {
+          if (socket.connected)
+            {
+              responseMessage =
+                  "Connected to server through web socket Successfully."
+            }
+          else
+            {responseMessage = "Error connecting through web socket."},
+
+                showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: ListTile(
+              subtitle: Text('$responseMessage'),
+            ),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: (() => Navigator.popAndPushNamed(context, '/')),
+                  child: Text("OK")),
+            ],
+          );
+        })
+
+        });
   }
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  requestFunction() async {
-    var responseMessage;
+  httpFunction() async {
     try {
       var getRequest = await http.get(Uri.parse('http://localhost:3535/api'));
 
@@ -97,10 +116,27 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: connect,
-        tooltip: 'Make request',
-        child: const Icon(Icons.request_page),
+      floatingActionButton: GridView(
+        shrinkWrap: true,
+        padding: const EdgeInsets.all(8.0),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 2.0,
+            mainAxisSpacing: 10.0,
+            crossAxisSpacing: 10.0,
+            mainAxisExtent: 100.0),
+        children: [
+          FloatingActionButton(
+            onPressed: httpFunction,
+            tooltip: 'Make HTTP request',
+            child: const Icon(Icons.http),
+          ),
+          FloatingActionButton(
+            onPressed: webSocketFucntion,
+            tooltip: 'Make WebSocket request',
+            child: const Icon(Icons.connected_tv),
+          )
+        ],
       ),
     );
   }
