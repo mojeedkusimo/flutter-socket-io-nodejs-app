@@ -21,6 +21,7 @@ server.listen(PORT, () => {
 });
 
 app.use('/api', (req, res) => {
+    console.log('HTTP request was received...');
     res.json({
         status: 200,
         message: `You have successfully made an HTTP request to the server on port: ${PORT}`
